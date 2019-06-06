@@ -10,7 +10,6 @@ pygame.init()
 # constants
 SCREEN_SIZE = (1500, 600)
 BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
 BALL_EDGE_WIDTH = 0
 
 
@@ -29,8 +28,7 @@ def main():
         x=int(SCREEN_SIZE[0] / 2) - 20,
         y=40,
         speed_x=0,
-        speed_y=0,
-        color=WHITE
+        speed_y=0
     )
     key_states = KeyStates()
     MIN_X = 0 + ball.width
@@ -65,24 +63,28 @@ def main():
             ball.x = MIN_X
             ball.speed_x *= -1
             splat_sound.play()
+            ball.set_color_state()
         if ball.x > MAX_X:
             ball.x = MAX_X
             ball.speed_x *= -1
             splat_sound.play()
+            ball.set_color_state()
         if ball.y > MAX_Y:
             ball.y = MAX_Y
             ball.speed_y *= -1
+            ball.set_color_state()
         ball.update_speed_y(ball.speed_y + 1)
         ball.update_position()
         pygame.draw.ellipse(
             screen,
-            ball.color,
+            ball.colors[ball.color_state],
             [ball.x, ball.y, ball.width, ball.height],
             BALL_EDGE_WIDTH
         )
         pygame.display.flip()
         clock.tick(60)
     pygame.quit()
+
 
 if __name__ == '__main__':
     main()
